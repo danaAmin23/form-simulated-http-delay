@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Bootstrap Example</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Merriweather&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Merriweather:400,400i&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <style>
+        html,
+        body {
+            background: #282828;
+            margin: 2pc;
+        }
+
+        /********Container Styling********/
+
+        .container {
+
+            margin: 6pc;
+        }
+
+        #containerHeader {
+            color: white;
+            font-size: 65px;
+            font-weight: bold;
+            font-family: 'Montserrat', sans-serif;
+            text-align: left;
+        }
+
+        hr {
+
+            background-color: #D02305;
+            height: 7px;
+        }
+
+
+        #containerPara {
+            color: white;
+            font-family: 'Merriweather', serif;
+            word-spacing: 3px;
+            line-height: 1.6;
+            font-size: 20px;
+            margin-top: 3pc;
+        }
+
+        .btn.btn-primary {
+            font-size: 20px;
+            font-family: 'Merriweather', serif;
+            background: #D02305;
+            border: none;
+            width: 65pc;
+            margin-top: 2pc;
+        }
+
+        .form-control {
+            width: 30pc;
+            border-radius: 0;
+            border: none;
+            margin-top: 2pc;
+            margin-right: 10px;
+
+        }
+
+        #inlineFormInput {
+            width: 515px;
+            font-family: 'Merriweather', serif;
+            font-style: italic;
+        }
+
+        #inlineFormSelect {
+            width: 515px;
+            font-family: 'Merriweather', serif;
+            font-style: italic;
+        }
+
+        #errMsg {
+            color: white;
+            margin-left: 19pc;
+            font-family: 'Merriweather', serif;
+            font-size: 12px;
+            margin-top: 5px;
+            height: 2pc;
+            padding-top: 2pc;
+        }
+
+
+        .tyMsg {
+
+
+            color: white;
+            font-size: 35px;
+            line-height: 1;
+            font-family: 'Montserrat', serif;
+            word-spacing: 3px;
+            line-height: 1.6;
+            font-size: 20px;
+        }
+
+        .tyMsg h1 {
+            font-weight: bold;
+            font-family: 'Montserrat', serif;
+            font-size: 35px
+        }
+
+        .fas.fa-play-fa-1g {
+            color: blue;
+        }
+
+        .form-select select {
+            display: none;
+            /*hide original SELECT element: */
+        }
+
+        .select-selected {
+            background-color: DodgerBlue;
+        }
+    </style>
+
+    <script>
+        //usin jquery 
+        function myFunction() {
+
+            //validator for email
+            var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+            //input data email
+            var email = $("input:text").val();
+
+            //input data dropdown 
+            var e = document.getElementById("inlineFormSelect");
+            var interest = e.options[e.selectedIndex].value;
+
+            //if email valid proceed with submit for 
+            if (email.match(mailformat)) {
+
+                event.preventDefault();
+                $btn = $("#load");
+
+                //console log input and select values to console without refreshing page
+                $.ajax({
+                    type: "POST",
+                    url: "index.html",
+                    data: {
+                        Email: email,
+                        Interests: interest
+                    },
+                    success: function(response) {
+                        console.log("Email : " + email + "\nInterest : " + interest);
+                        //simulate HTTP request after 2 seconds
+                        setTimeout(
+                            function() {
+                                $("#errMsg").html("");
+                                $(".form-inline").hide();
+                                $(".tyMsg").show();
+                                $("#containerPara").hide();
+                            }, 2000);
+                        $("#load").html("Submitting...");
+                        $("#play").css("display", "none");
+                    } //end success
+                }) //end ajax;
+            } //end if mail valid 
+
+            //display err msg if email invalid 
+            else {
+                event.preventDefault();
+                $("#errMsg").html("Please Enter a Valid Email Address");
+                $("#inlineFormInput").css("border", "thick solid #D02305");
+            } //end else 
+        }; //end myFunction()
+    </script>
+</head>
+
+<body>
+    <!--container class css bootstrap-->
+
+    <div class="container">
+
+        <div id="containerHeader">
+            INTERNSHIP SIGNUP FORM
+        </div>
+
+        <hr align="left" width="27%">
+
+        <div id="containerPara">
+            Prepare for your career with a Project Management, Web Development, Graphic-Design, or Digital Marketing
+            internship at Northern
+        </div>
+
+
+        <!--error Message to be handled in script-->
+        <div id="errMsg"></div>
+
+
+        <!--Form css bootstrapped -->
+        <form class="form-inline" action="index.html">
+            <input type="text" class="form-control mb-2 mr-sm-2 mb-sm-0" id="inlineFormInput" placeholder="Your Email Address *">
+            <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                <select class="form-control" id="inlineFormSelect">
+                    <option value="">Your Interests</option>
+                    <option value="Project Management">Project Management</option>
+                    <option value="Web Development">Web Development</option>
+                    <option value="Graohic Design">Graphic Design</option>
+                    <option value="Digital Marketing">Digital Marketing</option>
+                </select>
+            </div>
+            <br /> <button type="button" class="btn btn-primary" id="load" onclick="myFunction()">
+                Sign Up Now
+            </button>
+            <i class="fa fa-play fa 1g" id="play" aria-hidden="true" style="font-size:8px; color: white; margin-top:52px;position:absolute; margin-left: 37pc "></i>
+        </form>
+        <!--End Form-->
+
+
+
+        <!-- thankYou Message -->
+        <div class="tyMsg" style="display:none">
+            <h1>Thanks For Your Interest</h1><br>
+            We will review your application and contact you for additional information should your background and experience meet the requirements of our openings.
+        </div>
+
+        <!--End Container-->
+
+
+
+</body>
+
+</html>
